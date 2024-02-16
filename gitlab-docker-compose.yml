@@ -1,0 +1,34 @@
+version: '3.5'
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    hostname: 192.168.126.1
+    restart: unless-stopped
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_shell_ssh_port'] = 22
+        external_url 'https://gitlab.danilasm.com:443'
+    ports:
+      - "443:443"
+      - "80:80"
+      - "22:22"
+    volumes:
+      - /srv/gitlab/etc/gitlab:/etc/gitlab
+      - /srv/gitlab/var/opt/gitlab:/var/opt/gitlab
+      - /srv/gitlab/var/log/gitlab:/var/log/gitlab
+    networks:
+      - gitlab_net
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:alpine
+    restart: unless-stopped
+    depends_on:
+      - gitlab
+    volumes:
+      - /srv/gitlab/etc/gitlab-runner:/etc/gitlab-runner
+      - /srv/gitlab/var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gitlab_net
+
+networks:
+  gitlab_net:
