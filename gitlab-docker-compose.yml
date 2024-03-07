@@ -2,8 +2,8 @@ version: '3.5'
 services:
   gitlab:
     image: gitlab/gitlab-ce:latest
-    hostname: 192.168.0.110
-    restart: unless-stopped
+    hostname: gitlab.danilasm.com
+    restart: always
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['gitlab_shell_ssh_port'] = 22
@@ -13,20 +13,23 @@ services:
       - "80:80"
       - "2222:22"
     volumes:
-      - /srv/gitlab/etc/gitlab:/etc/gitlab
-      - /srv/gitlab/var/opt/gitlab:/var/opt/gitlab
-      - /srv/gitlab/var/log/gitlab:/var/log/gitlab
+      - /srv/gitlab/config:/etc/gitlab
+      - /srv/gitlab/data:/var/opt/gitlab
+      - /srv/gitlab/logs:/var/log/gitlab
     networks:
       - gitlab_net
 
   gitlab-runner:
-    image: gitlab/gitlab-runner:alpine
-    restart: unless-stopped
+    image: gitlab/gitlab-runner:latest
+    restart: always
     depends_on:
       - gitlab
     volumes:
-      - /srv/gitlab/etc/gitlab-runner:/etc/gitlab-runner
+      - /srv/gitlab/gitlab-runner/data:/home/gitlab_ci_multi_runner/data
+      - /srv/gitlab/gitlab-runner/config:/etc/gitlab-runner
       - /srv/gitlab/var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - CI_SERVER_URL=https://gitlab.danilasm.com/ci
     networks:
       - gitlab_net
 
