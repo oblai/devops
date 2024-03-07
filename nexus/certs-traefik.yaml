@@ -1,0 +1,9 @@
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/certs/bundle.crt
+        keyFile: /etc/certs/crt.key
+  certificates:
+    - certFile: /etc/certs/bundle.crt
+      keyFile: /etc/certs/crt.key
