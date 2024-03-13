@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+# запускаем prometheus с примонтированными папками (prometheus.yml - конфиг, data - данные)
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/data:/prometheus
+    environment:
+      TZ: "Europe/Moscow"
+    networks:
+      - default
+
+# запускаем grafana с примонтированной папкой (grafana - история, provisioning - конфиги)
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./grafana/logs/:/var/log/grafana
+    environment:
+      TZ: "Europe/Moscow"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
