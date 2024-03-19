@@ -6,20 +6,20 @@ services:
     container_name: jenkins
     ports:
       - "8080:8080"
-#      - "443:8443"
+      - "443:8443"
       - "50000:50000"
     volumes:
       - /srv/jenkins/jenkins_home:/var/jenkins_home
       - /srv/jenkins/ssl:/var/jenkins_home/keystore
       - /var/run/docker.sock:/var/run/docker.sock
-#    command: >
-#      sh -c "java -Dhudson.model.DirectoryBrowserSupport.CSP=\"\" -jar /usr/share/jenkins/jenkins.war --httpPort=-1 --httpsPort=8443 --httpsKeyStore=/var/jenkins_home/keystore/jenkinsserver.jks --httpsKeyStorePassword=jenkins"
+    command: >
+      sh -c "java -Dhudson.model.DirectoryBrowserSupport.CSP=\"\" -jar /usr/share/jenkins/jenkins.war --httpPort=-1 --httpsPort=8443 --httpsKeyStore=/var/jenkins_home/keystore/jenkinsserver.jks --httpsKeyStorePassword=jenkins"
 
-  haproxy:
-    image: haproxy:latest
-    container_name: haproxy
-    ports:
-      - "443:443"
-    volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-      - ./ssl/haproxy.pem:/srv/haproxy.pem
+  # haproxy:
+    # image: haproxy:latest
+    # container_name: haproxy
+    # ports:
+      # - "443:443"
+    # volumes:
+      # - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      # - ./ssl/haproxy.pem:/srv/haproxy.pem
