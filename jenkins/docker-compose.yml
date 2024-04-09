@@ -3,6 +3,7 @@ version: "3.8"
 services:
   jenkins:
     image: jenkins/jenkins:lts
+    restart: unless-stopped
     container_name: jenkins
     ports:
       - "8080:8080"
@@ -17,6 +18,7 @@ services:
 
   # haproxy:
     # image: haproxy:latest
+    # restart: unless-stopped
     # container_name: haproxy
     # ports:
       # - "443:443"

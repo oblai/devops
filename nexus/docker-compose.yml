@@ -4,6 +4,7 @@ services:
   reverse-proxy:
     # The official v2.0 Traefik docker image
     image: traefik:v2.10.1
+    restart: unless-stopped
     command:
       - --api.insecure=true
       - --providers.docker=true
@@ -35,6 +36,7 @@ services:
 
   nexus:
     image: sonatype/nexus3
+    restart: unless-stopped
     hostname: at-nexus.optimacros.com
     container_name: nexus
     volumes:
