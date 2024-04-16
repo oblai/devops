@@ -16,7 +16,6 @@ services:
     networks:
       - default
 
-# запускаем grafana с примонтированной папкой (grafana - история, provisioning - конфиги)
   grafana:
     image: grafana/grafana
     container_name: grafana
