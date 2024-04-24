@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
 # запускаем prometheus с примонтированными папками (prometheus.yml - конфиг, data - данные)
   prometheus:

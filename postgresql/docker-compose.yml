@@ -5,8 +5,8 @@ services:
     image: postgres:bullseye
     container_name: db
     environment:
-      POSTGRES_USER: "devops"
-      POSTGRES_PASSWORD: "qw12er34"
+      POSTGRES_USER: "${DOCKRE_REGISTY}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       POSTGRES_DB: "travel_list"
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
@@ -33,8 +33,8 @@ services:
     image: prometheuscommunity/postgres-exporter:v0.10.1
     environment:
       DATA_SOURCE_URI: "postgres:5432/travel_list?sslmode=disable"
-      DATA_SOURCE_USER: "devops"
-      DATA_SOURCE_PASS: "qw12er34"
+      DATA_SOURCE_USER: "${DOCKRE_REGISTY}"
+      DATA_SOURCE_PASS: "${POSTGRES_PASSWORD}"
       PG_EXPORTER_EXTEND_QUERY_PATH: "/etc/postgres_exporter/queries.yaml"
     volumes:
       - ./queries.yaml:/etc/postgres_exporter/queries.yaml:ro
