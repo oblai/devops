@@ -2,15 +2,15 @@
 docker run -d -p 4180:4180 \
   -v /srv/nginx/ssl:/etc/ssl \
   quay.io/oauth2-proxy/oauth2-proxy \
-  --email-domain="docs.DOMAIN.com" \
+  --email-domain="docs.domain.com" \
   --upstream=http://127.0.0.1:8080/ \
   --tls-cert-file=/etc/ssl/bundle.crt \
   --tls-key-file=/etc/ssl/crt.key \
-  --cookie-secret=63ea7c1d7073a90f419a0efacb971df4 \
+  --cookie-secret=63ea7c1d7073a90f419a0efacb971df4 \
   --cookie-secure=true \
-  --provider=github \
-  --client-id=5e9caf65a656c8e121bd \
-  --client-secret=eff17e14b39e17231108ae69672a14d2115092db
+  --provider=github \
+  --client-id=5e9caf854656c8e121bd \
+  --client-secret=eff17e14b39e171241328ae69672a14d2115092db
 
 
 
@@ -21,11 +21,11 @@ docker run -d -p 443:443 \
 
 docker run -d -p 4180:4180 \
   quay.io/oauth2-proxy/oauth2-proxy \
-  --email-domain="docs.DOMAIN.com" \
+  --email-domain="docs.domain.com" \
   --upstream=http://127.0.0.1:8080/ \
-  --cookie-secret=63ea7c1d7073a90f419a0efacb971df4 \
+  --cookie-secret=63ea7c1d7073a90f419a0efacb971df4 \
   --cookie-secure=true \
   --provider=github \
   --reverse-proxy=true \
-  --client-id=5e9caf65a656c8e121bd \
-  --client-secret=eff17e14b39e17231108ae69672a14d2115092db
+  --client-id=5e9caf854656c8e121bd \
+  --client-secret=eff17e14b39e171241328ae69672a14d2115092db
