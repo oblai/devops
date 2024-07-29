@@ -1,0 +1,24 @@
+stages:
+  - logrotate
+
+logrotate-deployment:
+  stage: logrotate
+  script:
+    - cp logrotate/Dockerfile ./
+    - docker build -t ${CONTAINERNAME} .
+    - docker ps -a -q --filter "name=${CONTAINERNAME}" | grep -q . && docker rm -f ${CONTAINERNAME} || true
+    - |
+      docker run \
+        --name ${CONTAINERNAME} \
+        --restart=unless-stopped \
+        -v /srv/hdd-storage/log/nginx:/srv/hdd-storage/log/nginx \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -d logrotate
+    - |
+  variables:
+    CONTAINERNAME: 'logrotate'
+  only:
+    - master
+  tags:
+    - prod
+  when: manual
