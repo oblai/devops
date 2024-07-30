@@ -1,0 +1,1 @@
+crontab -l | { cat; echo "00 */2 * * * /srv/hdd-storage/backup/bkp.sh"; } | crontab -
