@@ -3,6 +3,8 @@ stages:
 
 logrotate-deployment:
   stage: logrotate
+  variables:
+    CONTAINERNAME: 'logrotate'
   script:
     - cp logrotate/Dockerfile ./
     - docker build -t ${CONTAINERNAME} .
@@ -14,9 +16,6 @@ logrotate-deployment:
         -v /srv/hdd-storage/log/nginx:/srv/hdd-storage/log/nginx \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -d logrotate
-    - |
-  variables:
-    CONTAINERNAME: 'logrotate'
   only:
     - master
   tags:
