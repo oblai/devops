@@ -1,0 +1,24 @@
+stages:
+  - site
+
+build:
+  stage: site
+  variables:
+    CONTAINERNAME: 'site'
+    NODE_VERSION: '18.18.0'
+  script:
+    - cd /srv/${CONTAINERNAME}
+    - eval "$(ssh-agent -s)" && ssh-add ~/.ssh/${CONTAINERNAME}
+    - git pull
+    - |
+        docker run --rm \
+          --name="${CONTAINERNAME}" \
+          -w /app \
+          -v /srv/${CONTAINERNAME}:/app \
+          node:${NODE_VERSION} \
+              sh -c "npm cache clean --force && npm install && npm run build"
+  only:
+    - main
+  tags:
+    - shell
+  when: always

@@ -1,0 +1,11 @@
+stages:
+    - trigger
+
+trigger_pipeline:
+  stage: trigger
+  trigger:
+    project: "repository/environment"
+    branch: "main"
+  only:
+    - main
+  when: always
