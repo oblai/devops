@@ -1,11 +1,7 @@
 stages:
   - site
 
-build:
-  stage: site
-  variables:
-    CONTAINERNAME: 'site'
-    NODE_VERSION: '18.18.0'
+.job_definition: &node_builder
   script:
     - cd /srv/${CONTAINERNAME}
     - eval "$(ssh-agent -s)" && ssh-add ~/.ssh/${CONTAINERNAME}
@@ -17,6 +13,14 @@ build:
           -v /srv/${CONTAINERNAME}:/app \
           node:${NODE_VERSION} \
               sh -c "npm cache clean --force && npm install && npm run build"
+
+build:
+  stage: site
+  variables:
+    CONTAINERNAME: 'site'
+    NODE_VERSION: '18.18.0'
+  <<: *node_builder
+  script:
   only:
     - main
   tags:
