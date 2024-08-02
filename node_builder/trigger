@@ -4,7 +4,7 @@ stages:
 trigger_pipeline:
   stage: trigger
   trigger:
-    project: "repository/environment"
+    project: "repository/infrastructure"
     branch: "main"
   only:
     - main
