@@ -1,0 +1,27 @@
+stages:
+  - node-exporter
+
+node-exporter:
+  stage: node-exporter
+  variables: 
+    CONTAINERNAME: 'node-exporter'
+  script:
+    - docker ps -a -q --filter "name=${CONTAINERNAME}" | grep -q . && docker rm -f ${CONTAINERNAME} || true
+    - |
+      docker run -d \
+        --name ${CONTAINERNAME} \
+        --restart=unless-stopped \
+        -v /proc:/host/proc:ro \
+        -v /sys:/host/sys:ro \
+        -v /:/rootfs:ro \
+        -p 9100:9100 \
+        -e TZ="Europe/Moscow" \
+        prom/node-exporter \
+          --path.procfs=/host/proc \
+          --path.sysfs=/host/sys \
+          --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+  only:
+    - master
+  tags:
+    - prod
+  when: manual
